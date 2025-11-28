@@ -194,7 +194,7 @@ function arcVersion() {
     initConfigKey "addons.reducelogs" "" "${USER_CONFIG_FILE}"
     initConfigKey "addons.storagepanel" "" "${USER_CONFIG_FILE}"
     initConfigKey "addons.updatenotify" "" "${USER_CONFIG_FILE}"
-    if [ "${NVMEDRIVES}" -gt 0 ]; then
+    if [[ "${NVMEDRIVES}" -gt 0 && "${BUS}" != "nvme" ]] || [[ "${NVMEDRIVES}" -gt 1 && "${BUS}" = "nvme" ]]; then
       if is_in_array "${PLATFORM}" "${KVER5L[@]}" && [ "${SATADRIVES}" -eq 0 ] && [ "${SASDRIVES}" -eq 0 ] && [ "${BUS}" != "sata" ]; then
         initConfigKey "addons.nvmesystem" "" "${USER_CONFIG_FILE}"
       elif is_in_array "${PLATFORM}" "${KVER5L[@]}" && [ "${SATADRIVES}" -le 1 ] && [ "${SASDRIVES}" -eq 0 ] && [ "${BUS}" = "sata" ]; then
