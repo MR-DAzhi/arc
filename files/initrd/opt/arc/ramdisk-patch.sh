@@ -198,13 +198,13 @@ for KEY in "${!SYNOINFO[@]}"; do
   _set_conf_kv "${RAMDISK_PATH}/etc/synoinfo.conf" "${KEY}" "${SYNOINFO[${KEY}]}" || exit 1
   _set_conf_kv "${RAMDISK_PATH}/etc.defaults/synoinfo.conf" "${KEY}" "${SYNOINFO[${KEY}]}" || exit 1
 done
+rm -f "${RAMDISK_PATH}/usr/bin/get_key_value"
 if [ ! -x "${RAMDISK_PATH}/usr/bin/get_key_value" ]; then
-  rm -f "${RAMDISK_PATH}/usr/bin/get_key_value"
   printf '#!/bin/sh\n%s\n_get_conf_kv "$@"' "$(declare -f _get_conf_kv)" >"${RAMDISK_PATH}/usr/bin/get_key_value"
   chmod a+x "${RAMDISK_PATH}/usr/bin/get_key_value"
 fi
+rm -f "${RAMDISK_PATH}/usr/bin/set_key_value"
 if [ ! -x "${RAMDISK_PATH}/usr/bin/set_key_value" ]; then
-  rm -f "${RAMDISK_PATH}/usr/bin/set_key_value"
   printf '#!/bin/sh\n%s\n_set_conf_kv "$@"' "$(declare -f _set_conf_kv)" >"${RAMDISK_PATH}/usr/bin/set_key_value"
   chmod a+x "${RAMDISK_PATH}/usr/bin/set_key_value"
 fi
