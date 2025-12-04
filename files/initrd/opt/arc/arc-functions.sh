@@ -3843,14 +3843,18 @@ function recoverDSM() {
 # Clean DSM Root
 function cleanDSMRoot() {
   DSMROOTS="$(findDSMRoot)"
-  [ -z "${DSMROOTS}" ] && return
+  if [ -z "${DSMROOTS}" ]; then
+    dialog --backtitle "$(backtitle)" --title "Clean Cache" \
+    --aspect 18 --infobox "No DSM root found." 3 50
+    return
+  fi
   mkdir -p "${TMP_PATH}/mdX"
   CLEAN=0
   for I in ${DSMROOTS}; do
     T="$(blkid -o value -s TYPE "${I}" 2>/dev/null | sed 's/linux_raid_member/ext4/')"
     mount -t "${T:-ext4}" "${I}" "${TMP_PATH}/mdX"
     if [ $? -ne 0 ]; then
-      dialog --backtitle "$(backtitle)" --title "Mount Error" \
+      dialog --backtitle "$(backtitle)" --title "Clean Cache" \
         --msgbox "Failed to mount ${I}. Cleanup is not possible." 0 0
       umount -f "${TMP_PATH}/mdX" 2>/dev/null
       return
@@ -3869,10 +3873,10 @@ function cleanDSMRoot() {
     fi
   done
   if [ "${CLEAN}" -eq 0 ]; then
-    dialog --backtitle "$(backtitle)" --title "Cleanup" \
+    dialog --backtitle "$(backtitle)" --title "Clean Cache" \
     --infobox "Nothing to clean." 0 0
   else
-    dialog --backtitle "$(backtitle)" --title "Cleanup" \
+    dialog --backtitle "$(backtitle)" --title "Clean Cache" \
     --infobox "Cleanup completed successfully." 0 0
   fi
 }
