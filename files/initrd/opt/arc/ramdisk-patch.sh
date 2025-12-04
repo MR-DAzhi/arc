@@ -47,7 +47,7 @@ PAT_HASH="$(readConfigKey "pathash" "${USER_CONFIG_FILE}")"
 
 # Sanity check
 if [ ! -f "${ORI_RDGZ_FILE}" ]; then
-  echo "Error: ${ORI_RDGZ_FILE} not found!" >"${LOG_FILE}"
+  echo "Error: ${ORI_RDGZ_FILE} not found!"
   exit 1
 fi
 
@@ -73,27 +73,6 @@ SMALLNUM="${smallfixnumber}"
 writeConfigKey "productver" "${PRODUCTVER}" "${USER_CONFIG_FILE}"
 writeConfigKey "buildnum" "${BUILDNUM}" "${USER_CONFIG_FILE}"
 writeConfigKey "smallnum" "${SMALLNUM}" "${USER_CONFIG_FILE}"
-
-# PAT Data
-for SUBVER in {0..9}; do
-  for SUFFIX in {2..0}; do
-    PAT_KEY="${PRODUCTVER}.${SUBVER}-${BUILDNUM}-${SUFFIX}"
-    PAT_URL_UPDATE="$(readConfigKey "${PLATFORM}.\"${MODEL}\".\"${PAT_KEY}\".url" "${D_FILE}")"
-    PAT_HASH_UPDATE="$(readConfigKey "${PLATFORM}.\"${MODEL}\".\"${PAT_KEY}\".hash" "${D_FILE}")"
-    if [ -n "${PAT_URL_UPDATE}" ] && [ -n "${PAT_HASH_UPDATE}" ]; then
-      break 2
-    fi
-  done
-done
-if [ -z "${PAT_URL_UPDATE}" ] || [ -z "${PAT_HASH_UPDATE}" ]; then
-  echo -e "\nError: No valid PAT Data found for ${PRODUCTVER} (${BUILDNUM}).\nPlease update your ModelDB."
-  sleep 3
-  exit 1
-fi
-if [[ "${PAT_URL_UPDATE}" != "${PAT_URL:-}" || "${PAT_HASH_UPDATE}" != "${PAT_HASH:-}" ]]; then
-  writeConfigKey "paturl" "${PAT_URL_UPDATE}" "${USER_CONFIG_FILE}"
-  writeConfigKey "pathash" "${PAT_HASH_UPDATE}" "${USER_CONFIG_FILE}"
-fi
 
 # Read addons, modules and synoinfo
 declare -A ADDONS
@@ -142,7 +121,7 @@ echo "Create addons.sh" >>"${LOG_FILE}"
   echo "export LOADERBUILD=\"${ARC_BUILD}\""
   echo "export PLATFORM=\"${PLATFORM}\""
   echo "export MODEL=\"${MODEL}\""
-  echo "export PRODUCTVER=\"${PRODUCTVER}\""
+  echo "export PRODUCTVERL=\"${PRODUCTVERL}\""
   echo "export MLINK=\"${PAT_URL}\""
   echo "export MCHECKSUM=\"${PAT_HASH}\""
   echo "export LAYOUT=\"${LAYOUT:-qwerty}\""

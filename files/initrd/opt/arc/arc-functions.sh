@@ -191,8 +191,8 @@ function arcVersion() {
   PRODUCTVER="$(readConfigKey "productver" "${USER_CONFIG_FILE}")"
   PAT_URL="$(readConfigKey "paturl" "${USER_CONFIG_FILE}")"
   PAT_HASH="$(readConfigKey "pathash" "${USER_CONFIG_FILE}")"
-  # Read Arc Mode to prevent issues
   arc_mode
+
   if [ "${ARC_MODE}" = "config" ] && [ "${ARCRESTORE}" != "true" ]; then
     CVS="$(readConfigEntriesArray "platforms.${PLATFORM}.productvers" "${P_FILE}")"
     PVS="$(readConfigEntriesArray "${PLATFORM}.\"${MODEL}\"" "${D_FILE}")"
