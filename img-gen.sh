@@ -9,7 +9,10 @@
 set -e
 
 # Clean cached Files
-sudo git clean -fdx
+case "${1}" in
+  evo) sudo git clean -fdx ;;
+  essential) sudo git clean -fdx ;;
+esac
 
 . scripts/functions.sh "${AUX_TOKEN}"
 
@@ -30,6 +33,7 @@ getOffline "files/p3/configs"
 case "${1}" in
   evo) getBuildroot "${1}" "br" ;;
   essential) getBuildroot "${1}" "br" ;;
+  local) echo "Building local image" ;;
   *) echo "Invalid option specified" ;;
 esac
 
