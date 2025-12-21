@@ -63,7 +63,6 @@ VMLINUX_MOD=${1}
 ZIMAGE_MOD=${2}
 
 KVER=$(strings "${VMLINUX_MOD}" | grep -Eo "Linux version [0-9]+\.[0-9]+\.[0-9]+" | head -1 | awk '{print $3}')
-echo -e ">> Kernel: patching Linux ${KVER:0:1}.x"
 if [ "${KVER:0:1}" = "4" ]; then
   gzip -dc "${ARC_PATH}/bzImage-template-v4.gz" >"${ZIMAGE_MOD}" 2>/dev/null || exit 1
 
