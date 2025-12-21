@@ -3214,8 +3214,8 @@ function genHardwareID() {
       continue
     fi
   done
-  writeConfigKey "arc.confdone" "false" "${USER_CONFIG_FILE}"
-  CONFDONE="$(readConfigKey "arc.confdone" "${USER_CONFIG_FILE}")"
+  writeConfigKey "arc.builddone" "false" "${USER_CONFIG_FILE}"
+  CONFDONE="$(readConfigKey "arc.builddone" "${USER_CONFIG_FILE}")"
   return
 }
 
