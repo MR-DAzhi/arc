@@ -204,7 +204,12 @@ function arcVersion() {
       for V in $(echo "${PVS}" | sort -r); do
         if echo "${CVS}" | grep -qx "${V:0:3}"; then
           if [ "${SHOW_ALL}" -eq 1 ] || [[ "${V}" == 7.2.2-* ]]; then
-            LVS="${LVS}${V} "$'\n'
+            if [[ "${V:0:3}" < "7.3" ]]; then
+              STATUS="stable"
+            else
+              STATUS="beta"
+            fi
+            LVS="${LVS}${V} ${STATUS} "$'\n'
           fi
         fi
       done
