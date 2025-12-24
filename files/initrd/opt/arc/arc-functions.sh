@@ -200,7 +200,7 @@ function arcVersion() {
     EXTRA_LABEL="Show all"
     
     while true; do
-      LVS=""
+      echo -n "" >"${TMP_PATH}/menu"
       for V in $(echo "${PVS}" | sort -r); do
         if echo "${CVS}" | grep -qx "${V:0:3}"; then
           if [ "${SHOW_ALL}" -eq 1 ] || [[ "${V}" == 7.2.2-* ]]; then
@@ -209,14 +209,14 @@ function arcVersion() {
             else
               STATUS="beta"
             fi
-            LVS="${LVS}${V} ${STATUS} "$'\n'
+            printf "%s\t%s\n" "${V}" "${STATUS}" >>"${TMP_PATH}/menu"
           fi
         fi
       done
     
-      dialog --clear --no-items --nocancel --title "DSM Version" --backtitle "$(backtitle)" \
+      dialog --nocancel --title "DSM Version" --backtitle "$(backtitle)" \
         --extra-button --extra-label "${EXTRA_LABEL}" \
-        --menu "Select DSM Version" 7 30 0 ${LVS} 2>"${TMP_PATH}/resp"
+        --menu "Select DSM Version" 7 50 0 --file "${TMP_PATH}/menu" 2>"${TMP_PATH}/resp"
       RET=$?
     
       if [ "${RET}" -eq 3 ]; then
