@@ -27,17 +27,17 @@ function checkBootLoader() {
 # Check boot mode
 function arc_mode() {
   if grep -q 'automated_arc' /proc/cmdline; then
-    export ARC_MODE="automated"
+    ARC_MODE="automated"
   elif grep -q 'update_arc' /proc/cmdline; then
-    export ARC_MODE="update"
+    ARC_MODE="update"
   elif grep -q 'force_arc' /proc/cmdline; then
-    export ARC_MODE="config"
+    ARC_MODE="config"
   elif grep -q "force_junior" /proc/cmdline; then
-    export ARC_MODE="reinstall"
+    ARC_MODE="reinstall"
   elif grep -q "recovery" /proc/cmdline; then
-    export ARC_MODE="recovery"
+    ARC_MODE="recovery"
   else
-    export ARC_MODE="dsm"
+    ARC_MODE="dsm"
   fi
 }
 

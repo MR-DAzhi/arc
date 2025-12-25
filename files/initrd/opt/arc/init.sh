@@ -178,7 +178,7 @@ case "${ARC_MODE}" in
     echo -e "\033[1;34mStarting Update Mode...\033[0m"
     ;;
   dsm|reinstall|recovery)
-    if [ -f "${MOD_ZIMAGE_FILE}" ] && [ -f "${MOD_INITRD_FILE}" ]; then
+    if [ "${BUILDDONE}" = "true" ]; then
       echo -e "\033[1;34mStarting DSM Mode...\033[0m"
       boot.sh
     else
