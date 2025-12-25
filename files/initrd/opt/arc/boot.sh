@@ -316,14 +316,6 @@ else
   checkNIC || true
   echo
 
-  DSMLOGO="$(readConfigKey "bootscreen.dsmlogo" "${USER_CONFIG_FILE}")"
-  if [ "${DSMLOGO}" = "true" ] && [ -c "/dev/fb0" ]; then
-    [[ "${IPCON}" =~ ^169\.254\..* ]] && IPCON=""
-    [ -n "${IPCON}" ] && URL="http://${IPCON}:5000" || URL="http://find.synology.com/"
-    python3 "${ARC_PATH}/include/functions.py" "makeqr" -d "${URL}" -l "6" -o "${TMP_PATH}/qrcode_boot.png"
-    [ -f "${TMP_PATH}/qrcode_boot.png" ] && echo | fbv -acufi "${TMP_PATH}/qrcode_boot.png" >/dev/null 2>/dev/null || true
-  fi
-
   # Executes DSM kernel via KEXEC
   kexec -a -l "${MOD_ZIMAGE_FILE}" --initrd "${MOD_RDGZ_FILE}" --command-line="${CMDLINE_LINE} kexecboot" >"${LOG_FILE}" 2>&1 || die "Failed to load DSM Kernel!"
 
